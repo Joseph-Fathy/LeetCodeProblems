@@ -32,6 +32,20 @@ import java.util.*
  * Space Complexity: O(1)
  */
 class FizzBuzz {
+
+    private fun fizzBuzz(n: Int): List<String> {
+        return (1 until n + 1).map { index ->
+            when {
+                (index % 15 == 0) -> "FizzBuzz"
+                (index % 3 == 0) -> "Fizz"
+                (index % 5 == 0) -> "Buzz"
+                else -> "${(index)}"
+            }
+        }
+    }
+
+//=================================================================================================
+
     @Test
     fun testCase1() {
         val expectedList = listOf("1", "2", "Fizz")
@@ -72,14 +86,4 @@ class FizzBuzz {
         Assert.assertEquals(expectedList, actualList)
     }
 
-    private fun fizzBuzz(n: Int): List<String> {
-        return (1 until n + 1).map { index ->
-            when {
-                (index % 3 == 0 && index % 5 == 0) -> "FizzBuzz"
-                (index % 3 == 0) -> "Fizz"
-                (index % 5 == 0) -> "Buzz"
-                else -> "${(index)}"
-            }
-        }
-    }
 }
