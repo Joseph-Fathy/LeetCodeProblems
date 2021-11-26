@@ -24,22 +24,59 @@ import org.junit.Test
  * Output: [0,1]
  *
  * Example 4:
- * Input: nums = [1,2,3,4,5,6,7,8], target = 11
- * Output: [4,5]
+ * Input: nums = [1,2,3,4,5,6,7,8], target = 15
+ * Output: [6,7]
  *
  * Example 5:
  * Input: nums = [], target = 0
  * Output: []
  *
+ * Example 6:
+ * Input: nums = [3,2,3], target = 6
+ * Output: [0,2]
+ *
  * */
 class TwoSum {
+
+    fun solution1(nums: IntArray, target: Int): IntArray {
+        for (i in nums.indices) {
+            for (j in i + 1 until nums.size) {
+                if (nums[i] + nums[j] == target)
+                    return intArrayOf(i, j)
+            }
+        }
+
+        return intArrayOf()
+    }
+
+    fun solution2(nums: IntArray, target: Int): IntArray {
+        //map with key: target-current , value: index of current
+        //to store the differences between each Item and the target
+        val memory = HashMap<Int, Int>()
+
+        for (i in nums.indices) {
+            //if the memory contains of the current value as key
+            //this means that the the value of this key + the current value = target
+            val current = nums[i]
+            if (memory.containsKey(current)) {
+                return intArrayOf(memory[current]!!, i)
+            }
+            //add to memory the difference between the target - current as key and the index of
+            //the current as value
+            val key = target - current
+            memory[key] = i
+        }
+        return intArrayOf()
+    }
+
+//=================================================================================================
 
     @Test
     fun testCase1() {
         val inputArray = intArrayOf(2, 7, 11, 15)
         val target = 9
         val expected = intArrayOf(0, 1)
-        val actual = twoSum(inputArray, target)
+        val actual = solution1(inputArray, target)
         println(expected.contentToString())
         println(actual.contentToString())
         Assert.assertTrue(expected contentEquals actual)
@@ -50,7 +87,7 @@ class TwoSum {
         val inputArray = intArrayOf(3, 2, 4)
         val target = 6
         val expected = intArrayOf(1, 2)
-        val actual = twoSum(inputArray, target)
+        val actual = solution1(inputArray, target)
         println(expected.contentToString())
         println(actual.contentToString())
         Assert.assertTrue(expected contentEquals actual)
@@ -61,7 +98,7 @@ class TwoSum {
         val inputArray = intArrayOf(3, 3)
         val target = 6
         val expected = intArrayOf(0, 1)
-        val actual = twoSum(inputArray, target)
+        val actual = solution1(inputArray, target)
         println(expected.contentToString())
         println(actual.contentToString())
         Assert.assertTrue(expected contentEquals actual)
@@ -70,9 +107,9 @@ class TwoSum {
     @Test
     fun testCase4() {
         val inputArray = intArrayOf(1, 2, 3, 4, 5, 6, 7, 8)
-        val target = 11
-        val expected = intArrayOf(4, 5)
-        val actual = twoSum(inputArray, target)
+        val target = 15
+        val expected = intArrayOf(6, 7)
+        val actual = solution2(inputArray, target)
         println(expected.contentToString())
         println(actual.contentToString())
         Assert.assertTrue(expected contentEquals actual)
@@ -83,19 +120,21 @@ class TwoSum {
         val inputArray = intArrayOf()
         val target = 0
         val expected = intArrayOf()
-        val actual = twoSum(inputArray, target)
+        val actual = solution1(inputArray, target)
         println(expected.contentToString())
         println(actual.contentToString())
         Assert.assertTrue(expected contentEquals actual)
     }
 
 
-    fun twoSum(nums: IntArray, target: Int): IntArray {
-        for (i in 1 until nums.size) {
-            if (nums[i] + nums[i - 1] == target)
-                return intArrayOf(i - 1, i)
-        }
-
-        return intArrayOf()
+    @Test
+    fun testCase6() {
+        val inputArray = intArrayOf(3, 2, 3)
+        val target = 6
+        val expected = intArrayOf(0, 2)
+        val actual = solution2(inputArray, target)
+        println(expected.contentToString())
+        println(actual.contentToString())
+        Assert.assertTrue(expected contentEquals actual)
     }
 }
